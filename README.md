@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎉 Eventa App
 
-## Getting Started
+> Event discovery platform - Connecting venues and attendees in Baku
 
-First, run the development server:
+![Status](https://img.shields.io/badge/Status-MVP%2095%25-green)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)
+
+## 🚀 Live Demo
+
+Coming soon (Phase 7 - Deployment)
+
+## ✨ Features
+
+### For Users
+
+- 🔍 Browse upcoming events
+- 💚 RSVP system (Interested/Going)
+- 📊 Real-time capacity tracking
+- 📞 Contact organizers directly
+- 🔔 Transparent event updates
+
+### For Venues
+
+- ➕ Create and manage events
+- ✏️ Flexible editing (trust-based)
+- 📈 Live RSVP analytics
+- 👥 Capacity management
+- 🚫 Cancellation workflow
+
+### For Admins
+
+- ✅ Event approval system
+- ❌ Quality control with reasons
+- 🔄 Cancellation management
+- 📊 Professional dashboard
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js 15, TypeScript, Tailwind CSS
+- **Backend:** Supabase (PostgreSQL, Auth, Storage)
+- **Deployment:** Vercel (planned)
+- **Icons:** Lucide React
+- **Notifications:** React Hot Toast
+
+## 📖 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- Supabase account
+
+### Installation
 
 ```bash
+# Clone repository
+git clone https://github.com/ruslanbaghirov/eventa_app.git
+cd eventa_app
+
+# Install dependencies
+npm install
+
+# Create .env.local
+NEXT_PUBLIC_SUPABASE_URL=your-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📊 Project Status
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ✅ Phase 1: Project Setup
+- ✅ Phase 2: Event Listing
+- ✅ Phase 3: Authentication
+- ✅ Phase 4: Venue Dashboard
+- ✅ Phase 5: RSVP System
+- 🚧 Phase 6: Search & Filters (Next)
+- ⬜ Phase 7: Deployment
 
-## Learn More
+**Current Progress:** 95% Complete
 
-To learn more about Next.js, take a look at the following resources:
+See [PROJECT_STATUS.md](./PROJECT_STATUS.md) for detailed documentation.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 Key Design Decisions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Trust-Based Edit Model
 
-## Deploy on Vercel
+Venues can edit events anytime. Transparency through "Updated X ago" badges.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Two-Type RSVP
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Interested:** Unlimited, shows interest
+- **Going:** Respects capacity, confirms attendance
+
+### Admin Approval
+
+- New events require approval
+- Cancellations require approval
+- Edits don't require approval (trust-based)
+
+## 📁 Project Structure
+
+```
+eventa_app/
+├── app/                    # Next.js App Router
+│   ├── events/            # Public event pages
+│   ├── dashboard/         # Venue dashboard
+│   ├── admin/             # Admin panel
+│   └── lib/               # Utilities
+├── components/
+│   └── events/            # Reusable components
+└── PROJECT_STATUS.md      # Detailed docs
+```
+
+## 👨‍💻 Author
+
+**Ruslan Baghirov**  
+[@ruslanbaghirov](https://github.com/ruslanbaghirov)
+
+Built with GitHub Copilot as a full-stack learning project.
+
+## 📝 License
+
+MIT License - See [LICENSE](LICENSE) for details
+
+---
+
+**⭐ Star this repo if you find it helpful!**
+
+Built with ❤️ in Baku, Azerbaijan
