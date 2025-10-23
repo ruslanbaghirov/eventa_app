@@ -212,37 +212,40 @@ export default function EventsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading events...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p className="text-gray-700 font-medium">Loading events...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-50">
+      <header className="bg-white border-b-2 border-gray-900 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-blue-600">
+            <Link
+              href="/"
+              className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+            >
               EventHub
             </Link>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               {user ? (
                 <>
                   <Link
                     href="/dashboard"
-                    className="text-gray-600 hover:text-gray-900 font-semibold hover:underline"
+                    className="text-gray-900 hover:text-gray-600 font-semibold transition-colors"
                   >
                     Dashboard
                   </Link>
                   <form action="/auth/signout" method="post">
                     <button
                       type="submit"
-                      className="text-gray-600 hover:text-gray-900 font-semibold hover:underline"
+                      className="text-gray-900 hover:text-gray-600 font-semibold transition-colors"
                     >
                       Sign Out
                     </button>
@@ -252,13 +255,13 @@ export default function EventsPage() {
                 <>
                   <Link
                     href="/login"
-                    className="text-gray-600 hover:text-gray-900 font-semibold hover:underline"
+                    className="text-gray-900 hover:text-gray-600 font-semibold transition-colors"
                   >
                     Login
                   </Link>
                   <Link
                     href="/signup"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-all"
+                    className="bg-gray-900 hover:bg-gray-700 text-white px-5 py-2 rounded-md font-semibold transition-all border-2 border-gray-900"
                   >
                     Sign Up
                   </Link>
@@ -270,47 +273,47 @@ export default function EventsPage() {
       </header>
 
       {/* Search & Filters Section */}
-      <div className="bg-white border-b shadow-sm">
+      <div className="bg-gray-50 border-b-2 border-gray-300">
         <div className="container mx-auto px-4 py-6">
           {/* Page Title */}
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Discover Events
             </h1>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-700 text-lg">
               Find amazing experiences in Baku
             </p>
           </div>
 
           {/* Search Bar */}
-          <div className="mb-4">
+          <div className="mb-5">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search events, venues, or descriptions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-400 rounded-md focus:outline-none focus:border-gray-900 text-gray-900 placeholder-gray-500 font-medium bg-white"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded p-1 transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               )}
             </div>
           </div>
 
           {/* Filter Dropdowns */}
-          <div className="flex flex-wrap gap-3 mb-4">
+          <div className="flex flex-wrap gap-3 mb-5">
             {/* Category Filter */}
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 font-medium hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+              className="px-4 py-2.5 border-2 border-gray-400 rounded-md bg-white text-gray-900 font-semibold hover:border-gray-900 focus:outline-none focus:border-gray-900 cursor-pointer"
             >
               {CATEGORIES.map((category) => (
                 <option key={category} value={category}>
@@ -323,7 +326,7 @@ export default function EventsPage() {
             <select
               value={selectedPrice}
               onChange={(e) => setSelectedPrice(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 font-medium hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+              className="px-4 py-2.5 border-2 border-gray-400 rounded-md bg-white text-gray-900 font-semibold hover:border-gray-900 focus:outline-none focus:border-gray-900 cursor-pointer"
             >
               {PRICE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -336,7 +339,7 @@ export default function EventsPage() {
             <select
               value={selectedSort}
               onChange={(e) => setSelectedSort(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 font-medium hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+              className="px-4 py-2.5 border-2 border-gray-400 rounded-md bg-white text-gray-900 font-semibold hover:border-gray-900 focus:outline-none focus:border-gray-900 cursor-pointer"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -348,11 +351,13 @@ export default function EventsPage() {
 
           {/* Active Filters & Clear Button */}
           {hasActiveFilters && (
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm text-gray-600 font-medium">Active:</span>
+            <div className="flex flex-wrap items-center gap-2 mb-5">
+              <span className="text-sm text-gray-700 font-bold">
+                Active filters:
+              </span>
 
               {searchQuery && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border-2 border-gray-900 text-gray-900 text-sm font-bold rounded-md">
                   Search: "
                   {searchQuery.length > 20
                     ? searchQuery.substring(0, 20) + "..."
@@ -360,73 +365,76 @@ export default function EventsPage() {
                   "
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="hover:bg-blue-200 rounded-full p-0.5"
+                    className="hover:bg-gray-100 rounded p-0.5 transition-colors"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </span>
               )}
 
               {selectedCategory !== "All Categories" && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border-2 border-gray-900 text-gray-900 text-sm font-bold rounded-md">
                   {selectedCategory}
                   <button
                     onClick={() => setSelectedCategory("All Categories")}
-                    className="hover:bg-purple-200 rounded-full p-0.5"
+                    className="hover:bg-gray-100 rounded p-0.5 transition-colors"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </span>
               )}
 
               {selectedPrice !== "all" && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border-2 border-gray-900 text-gray-900 text-sm font-bold rounded-md">
                   {selectedPrice === "free" ? "Free Only" : "Paid Only"}
                   <button
                     onClick={() => setSelectedPrice("all")}
-                    className="hover:bg-green-200 rounded-full p-0.5"
+                    className="hover:bg-gray-100 rounded p-0.5 transition-colors"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </span>
               )}
 
               <button
                 onClick={clearFilters}
-                className="text-sm text-red-600 hover:text-red-700 font-semibold hover:underline ml-2"
+                className="text-sm text-gray-900 hover:text-gray-600 font-bold underline ml-2 transition-colors"
               >
-                Clear All
+                Clear all
               </button>
             </div>
           )}
 
           {/* Result Count */}
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <p className="text-sm text-gray-600">
-              Showing{" "}
-              <span className="font-bold text-gray-900">
+          <div className="pt-5 border-t-2 border-gray-300">
+            <p className="text-sm text-gray-700 font-semibold">
+              <span className="text-gray-900 font-bold text-base">
                 {filteredEvents.length}
               </span>{" "}
-              of{" "}
-              <span className="font-bold text-gray-900">{events.length}</span>{" "}
-              events
+              {filteredEvents.length === 1 ? "event" : "events"} found
+              {events.length !== filteredEvents.length && (
+                <span className="text-gray-600 font-normal">
+                  {" "}
+                  • {events.length} total
+                </span>
+              )}
             </p>
           </div>
         </div>
       </div>
 
       {/* Events Grid */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         {filteredEvents.length === 0 ? (
           // Empty State
-          <div className="text-center py-16">
+          <div className="text-center py-20 bg-gray-50 border-2 border-gray-300 rounded-md">
             <div className="mb-4">
-              <Search className="w-16 h-16 text-gray-300 mx-auto" />
+              <Search className="w-20 h-20 text-gray-400 mx-auto" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">
               No events found
             </h3>
-            <p className="text-gray-500 mb-4">
+            <p className="text-gray-700 mb-6 text-lg">
               {hasActiveFilters
                 ? "Try adjusting your filters or search query"
                 : "Check back soon for exciting events!"}
@@ -434,7 +442,7 @@ export default function EventsPage() {
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all"
+                className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white px-6 py-3 rounded-md font-bold transition-all border-2 border-gray-900"
               >
                 <X className="w-5 h-5" />
                 Clear All Filters
@@ -466,12 +474,12 @@ export default function EventsPage() {
               return (
                 <div
                   key={event.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all"
+                  className="bg-white rounded-md border-2 border-gray-400 overflow-hidden hover:border-gray-900 hover:shadow-lg transition-all"
                 >
                   {/* Event Image */}
                   <Link href={`/events/${event.id}`}>
                     {event.image_url ? (
-                      <div className="relative h-48 overflow-hidden">
+                      <div className="relative h-48 overflow-hidden border-b-2 border-gray-400">
                         <img
                           src={event.image_url}
                           alt={event.title}
@@ -479,8 +487,8 @@ export default function EventsPage() {
                         />
                       </div>
                     ) : (
-                      <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                        <Calendar className="w-16 h-16 text-white opacity-50" />
+                      <div className="h-48 bg-gray-200 flex items-center justify-center border-b-2 border-gray-400">
+                        <Calendar className="w-16 h-16 text-gray-500" />
                       </div>
                     )}
                   </Link>
@@ -488,12 +496,12 @@ export default function EventsPage() {
                   <div className="p-5">
                     {/* Category + Updated Badge */}
                     <div className="flex items-center gap-2 mb-3 flex-wrap">
-                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">
+                      <span className="inline-block px-3 py-1 bg-gray-900 text-white text-xs font-bold rounded-md border-2 border-gray-900">
                         {event.category}
                       </span>
 
                       {showUpdatedBadge && (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">
+                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-900 text-xs font-bold rounded-md border-2 border-amber-300">
                           <Clock className="w-3 h-3" />
                           Updated {formatTimeAgo(event.updated_at)}
                         </span>
@@ -502,26 +510,26 @@ export default function EventsPage() {
 
                     {/* Title */}
                     <Link href={`/events/${event.id}`}>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 hover:underline transition-all">
                         {event.title}
                       </h3>
                     </Link>
 
                     {/* Venue */}
-                    <p className="text-sm text-gray-600 mb-3">
+                    <p className="text-sm text-gray-700 mb-3 font-semibold">
                       by {event.venue_name}
                     </p>
 
                     {/* Description Preview */}
-                    <p className="text-sm text-gray-700 mb-4 line-clamp-2">
+                    <p className="text-sm text-gray-700 mb-4 line-clamp-2 leading-relaxed">
                       {event.description}
                     </p>
 
                     {/* Event Details */}
-                    <div className="space-y-2 text-sm text-gray-600 mb-4">
+                    <div className="space-y-2 text-sm text-gray-700 mb-4 bg-gray-50 p-3 rounded-md border-2 border-gray-300">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-gray-400" />
-                        <span>
+                        <Calendar className="w-4 h-4 text-gray-600" />
+                        <span className="font-semibold">
                           {new Date(event.date).toLocaleDateString("en-US", {
                             weekday: "short",
                             month: "short",
@@ -531,56 +539,62 @@ export default function EventsPage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-gray-400" />
-                        <span>{event.time}</span>
+                        <Clock className="w-4 h-4 text-gray-600" />
+                        <span className="font-semibold">{event.time}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-gray-400" />
-                        <span className="truncate">{event.location}</span>
+                        <MapPin className="w-4 h-4 text-gray-600" />
+                        <span className="truncate font-semibold">
+                          {event.location}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <DollarSign className="w-4 h-4 text-gray-400" />
-                        <span className="font-semibold">
+                        <DollarSign className="w-4 h-4 text-gray-600" />
+                        <span className="font-bold text-gray-900">
                           {event.price === 0 ? "Free" : `${event.price} AZN`}
                         </span>
                       </div>
                     </div>
 
                     {/* RSVP Counts */}
-                    <div className="flex items-center gap-4 mb-4 text-sm">
-                      <div className="flex items-center gap-1 text-yellow-600">
-                        <Star className="w-4 h-4" />
-                        <span className="font-semibold">
+                    <div className="flex items-center gap-4 mb-4 text-sm pb-4 border-b-2 border-gray-300">
+                      <div className="flex items-center gap-1.5">
+                        <Star className="w-4 h-4 text-gray-900" />
+                        <span className="font-bold text-gray-900">
                           {event.interestedCount}
                         </span>
-                        <span className="text-gray-600">interested</span>
+                        <span className="text-gray-700 font-semibold">
+                          interested
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1 text-green-600">
-                        <Check className="w-4 h-4" />
-                        <span className="font-semibold">
+                      <div className="flex items-center gap-1.5">
+                        <Check className="w-4 h-4 text-gray-900" />
+                        <span className="font-bold text-gray-900">
                           {event.goingCount}
                         </span>
-                        <span className="text-gray-600">going</span>
+                        <span className="text-gray-700 font-semibold">
+                          going
+                        </span>
                       </div>
                     </div>
 
                     {/* Capacity Progress Bar */}
                     {event.capacity && capacityPercentage !== null && (
                       <div className="mb-4">
-                        <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+                        <div className="flex items-center justify-between text-xs text-gray-700 mb-2 font-bold">
                           <span>Capacity</span>
-                          <span className="font-semibold">
+                          <span>
                             {event.goingCount} / {event.capacity}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                        <div className="w-full bg-gray-200 rounded-sm h-3 overflow-hidden border-2 border-gray-400">
                           <div
-                            className={`h-2 rounded-full transition-all ${
+                            className={`h-full transition-all ${
                               isAtCapacity
-                                ? "bg-red-500"
+                                ? "bg-red-600"
                                 : isNearCapacity
-                                ? "bg-yellow-500"
-                                : "bg-green-500"
+                                ? "bg-amber-500"
+                                : "bg-green-600"
                             }`}
                             style={{
                               width: `${Math.min(capacityPercentage, 100)}%`,
@@ -588,8 +602,8 @@ export default function EventsPage() {
                           />
                         </div>
                         {isAtCapacity && (
-                          <p className="text-xs text-red-600 font-semibold mt-1">
-                            At capacity
+                          <p className="text-xs text-red-700 font-bold mt-2 bg-red-50 px-2 py-1 rounded-md border-2 border-red-300">
+                            ⚠️ At capacity
                           </p>
                         )}
                       </div>
