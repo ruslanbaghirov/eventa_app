@@ -16,9 +16,12 @@ import {
   Mail,
   ExternalLink,
   TrendingUp,
+  Share2,
 } from "lucide-react";
 import RSVPButton from "@/app/components/events/RSVPButton";
 import { formatTimeAgo, wasRecentlyUpdated } from "@/app/lib/utils/time";
+import StickyBottomBar from "@/app/components/events/StickyBottomBar";
+import Footer from "@/app/components/layout/Footer";
 
 /**
  * EVENT DETAIL PAGE
@@ -109,247 +112,282 @@ export default async function EventDetailPage({
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white border-b-2 border-gray-900 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <Link
             href="/events"
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold hover:underline"
+            className="inline-flex items-center gap-2 text-gray-900 hover:text-gray-600 font-semibold transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
             Back to Events
           </Link>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Event Image */}
-          {event.image_url ? (
-            <div className="w-full h-96 rounded-lg overflow-hidden mb-6 shadow-lg">
-              <img
-                src={event.image_url}
-                alt={event.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="w-full h-96 rounded-lg overflow-hidden mb-6 shadow-lg bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-              <Calendar className="w-24 h-24 text-white opacity-50" />
-            </div>
-          )}
-
-          {/* Event Info */}
-          <div className="bg-white rounded-lg shadow-md p-8">
-            {/* Category + Updated Badge */}
-            <div className="flex items-center gap-2 mb-4 flex-wrap">
-              <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
-                {event.category}
-              </span>
-
-              {/* UPDATED BADGE */}
-              {showUpdatedBadge && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-full border border-blue-200">
-                  <Clock className="w-4 h-4" />
-                  Updated {formatTimeAgo(event.updated_at)}
+      {/* Main Content - Two Column Layout */}
+      <div className="container mx-auto px-4 py-8 pb-32">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* LEFT COLUMN - Main Content (2/3 width) */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Category Badge & Updated Badge */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-block px-3 py-1.5 bg-gray-900 text-white text-sm font-bold rounded-md border-2 border-gray-900">
+                  {event.category}
                 </span>
-              )}
-            </div>
 
-            {/* Title */}
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              {event.title}
-            </h1>
+                {showUpdatedBadge && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-900 text-xs font-bold rounded-md border-2 border-amber-300">
+                    <Clock className="w-3 h-3" />
+                    Updated {formatTimeAgo(event.updated_at)}
+                  </span>
+                )}
+              </div>
 
-            {/* Venue */}
-            <p className="text-lg text-gray-600 mb-6">
-              Organized by{" "}
-              <span className="font-semibold">{event.venue_name}</span>
-            </p>
+              {/* Title Section */}
+              <div>
+                <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                  {event.title}
+                </h1>
+              </div>
 
-            {/* Event Details Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                <Calendar className="w-6 h-6 text-blue-600" />
+              {/* Host Info */}
+              <div className="flex items-center gap-4 pb-6 border-b-2 border-gray-300">
+                <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold text-xl">
+                  {event.venue_name.charAt(0).toUpperCase()}
+                </div>
                 <div>
-                  <p className="text-sm text-gray-600">Date</p>
-                  <p className="font-semibold text-gray-900">
-                    {new Date(event.date).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                  <p className="text-sm text-gray-600">Hosted by</p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {event.venue_name}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                <Clock className="w-6 h-6 text-blue-600" />
-                <div>
-                  <p className="text-sm text-gray-600">Time</p>
-                  <p className="font-semibold text-gray-900">{event.time}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                <MapPin className="w-6 h-6 text-blue-600" />
-                <div>
-                  <p className="text-sm text-gray-600">Location</p>
-                  <p className="font-semibold text-gray-900">
-                    {event.location}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                <DollarSign className="w-6 h-6 text-blue-600" />
-                <div>
-                  <p className="text-sm text-gray-600">Price</p>
-                  <p className="font-semibold text-gray-900">
-                    {event.price === 0 ? "Free" : `${event.price} AZN`}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Description */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                About This Event
-              </h2>
-              <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                {event.description}
-              </p>
-            </div>
-
-            {/* RSVP Section */}
-            <div className="mb-6 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
-              <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="w-5 h-5 text-blue-600" />
-                <h2 className="text-xl font-bold text-gray-900">
-                  Join This Event
+              {/* Description Section */}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  Details
                 </h2>
-              </div>
-
-              {/* RSVP Counts */}
-              <div className="flex items-center gap-6 mb-4">
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-500" />
-                  <span className="text-lg font-bold text-gray-900">
-                    {interestedCount || 0}
-                  </span>
-                  <span className="text-gray-600">interested</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-lg font-bold text-gray-900">
-                    {goingCount || 0}
-                  </span>
-                  <span className="text-gray-600">going</span>
+                <div className="prose max-w-none">
+                  <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap">
+                    {event.description}
+                  </p>
                 </div>
               </div>
+            </div>
 
-              {/* Capacity Progress - FIXED NULL CHECK */}
-              {event.capacity && capacityPercentage !== null && (
-                <div className="mb-4">
-                  <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
-                    <span>Event Capacity</span>
-                    <span className="font-semibold">
-                      {goingCount || 0} / {event.capacity} spots filled
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                    <div
-                      className={`h-3 rounded-full transition-all ${
-                        isAtCapacity
-                          ? "bg-red-500"
-                          : isNearCapacity
-                          ? "bg-yellow-500"
-                          : "bg-green-500"
-                      }`}
-                      style={{ width: `${Math.min(capacityPercentage, 100)}%` }}
+            {/* RIGHT COLUMN - Event Info & Image (1/3 width) */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-24 space-y-6">
+                {/* Event Image */}
+                <div className="rounded-lg overflow-hidden border-4 border-gray-900 shadow-xl">
+                  {event.image_url ? (
+                    <img
+                      src={event.image_url}
+                      alt={event.title}
+                      className="w-full h-64 object-cover"
                     />
+                  ) : (
+                    <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+                      <Calendar className="w-16 h-16 text-gray-500" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Date & Time Container */}
+                <div className="bg-gray-50 rounded-md border-2 border-gray-400 p-6 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <Calendar className="w-6 h-6 text-gray-900 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-600 mb-1">Date and time</p>
+                      <p className="font-bold text-gray-900">
+                        {new Date(event.date).toLocaleDateString("en-US", {
+                          weekday: "long",
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </p>
+                      <p className="font-semibold text-gray-700 mt-1">
+                        {event.time}
+                      </p>
+                    </div>
                   </div>
-                  {isAtCapacity && (
-                    <p className="text-sm text-red-600 font-semibold mt-2">
-                      ⚠️ This event is at full capacity for "Going" RSVPs. You
-                      can still mark as "Interested".
-                    </p>
-                  )}
-                  {isNearCapacity && !isAtCapacity && (
-                    <p className="text-sm text-yellow-600 font-semibold mt-2">
-                      ⚠️ Only {event.capacity - (goingCount || 0)} spots left!
-                    </p>
+
+                  <div className="border-t-2 border-gray-300 pt-4">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-6 h-6 text-gray-900 mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm text-gray-600 mb-1">Location</p>
+                        <p className="font-bold text-gray-900">
+                          {event.location}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t-2 border-gray-300 pt-4">
+                    <div className="flex items-start gap-3">
+                      <DollarSign className="w-6 h-6 text-gray-900 mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm text-gray-600 mb-1">Price</p>
+                        <p className="font-bold text-gray-900 text-xl">
+                          {event.price === 0 ? "Free" : `${event.price} AZN`}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* RSVP Stats */}
+                <div className="bg-gray-50 rounded-md border-2 border-gray-400 p-6">
+                  <div className="flex items-center gap-6 mb-4">
+                    <div className="flex items-center gap-2">
+                      <Star className="w-5 h-5 text-gray-900" />
+                      <div>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {interestedCount || 0}
+                        </p>
+                        <p className="text-xs text-gray-600">interested</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-5 h-5 text-gray-900" />
+                      <div>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {goingCount || 0}
+                        </p>
+                        <p className="text-xs text-gray-600">going</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Capacity Progress */}
+                  {event.capacity && capacityPercentage !== null && (
+                    <div className="pt-4 border-t-2 border-gray-300">
+                      <div className="flex items-center justify-between text-sm text-gray-700 mb-2 font-bold">
+                        <span>Capacity</span>
+                        <span>
+                          {goingCount || 0} / {event.capacity}
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-sm h-3 overflow-hidden border-2 border-gray-400">
+                        <div
+                          className={`h-full transition-all ${
+                            isAtCapacity
+                              ? "bg-red-600"
+                              : isNearCapacity
+                              ? "bg-amber-500"
+                              : "bg-green-600"
+                          }`}
+                          style={{
+                            width: `${Math.min(capacityPercentage, 100)}%`,
+                          }}
+                        />
+                      </div>
+                      {isAtCapacity && (
+                        <p className="text-xs text-red-700 font-bold mt-2">
+                          ⚠️ At capacity
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
 
-              {/* RSVP Buttons - FIXED TYPE */}
-              <RSVPButton
-                eventId={event.id}
-                eventTitle={event.title}
-                currentRSVP={currentRSVP}
-                capacity={event.capacity}
-                currentGoingCount={goingCount || 0}
-              />
-            </div>
+                {/* Contact Organizer Section */}
+                {(event.contact_whatsapp ||
+                  event.contact_email ||
+                  event.booking_link) && (
+                  <div className="bg-gray-50 rounded-md border-2 border-gray-400 p-6">
+                    <h3 className="font-bold text-gray-900 mb-4 text-lg">
+                      Contact Organizer
+                    </h3>
+                    <div className="space-y-3">
+                      {event.contact_whatsapp && (
+                        <a
+                          href={`https://wa.me/${event.contact_whatsapp}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 p-3 bg-white rounded-md border-2 border-gray-400 hover:border-gray-900 transition-all"
+                        >
+                          <MessageCircle className="w-5 h-5 text-gray-900" />
+                          <div>
+                            <p className="font-bold text-gray-900 text-sm">
+                              WhatsApp
+                            </p>
+                            <p className="text-xs text-gray-600">
+                              {event.contact_whatsapp}
+                            </p>
+                          </div>
+                        </a>
+                      )}
 
-            {/* Contact Organizer Section */}
-            {(event.contact_whatsapp ||
-              event.contact_email ||
-              event.booking_link) && (
-              <div className="p-6 bg-gray-50 rounded-lg border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
-                  Contact Organizer
-                </h2>
-                <div className="space-y-3">
-                  {event.contact_whatsapp && (
-                    <a
-                      href={`https://wa.me/${event.contact_whatsapp}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-green-50 transition-colors border border-gray-200 hover:border-green-300"
-                    >
-                      <MessageCircle className="w-5 h-5 text-green-600" />
-                      <span className="font-semibold text-gray-900">
-                        Message on WhatsApp
-                      </span>
-                    </a>
-                  )}
+                      {event.contact_email && (
+                        <a
+                          href={`mailto:${event.contact_email}`}
+                          className="flex items-center gap-3 p-3 bg-white rounded-md border-2 border-gray-400 hover:border-gray-900 transition-all"
+                        >
+                          <Mail className="w-5 h-5 text-gray-900" />
+                          <div>
+                            <p className="font-bold text-gray-900 text-sm">
+                              Email
+                            </p>
+                            <p className="text-xs text-gray-600 truncate">
+                              {event.contact_email}
+                            </p>
+                          </div>
+                        </a>
+                      )}
 
-                  {event.contact_email && (
-                    <a
-                      href={`mailto:${event.contact_email}`}
-                      className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-blue-50 transition-colors border border-gray-200 hover:border-blue-300"
-                    >
-                      <Mail className="w-5 h-5 text-blue-600" />
-                      <span className="font-semibold text-gray-900">
-                        Send Email
-                      </span>
-                    </a>
-                  )}
-
-                  {event.booking_link && (
-                    <a
-                      href={event.booking_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-purple-50 transition-colors border border-gray-200 hover:border-purple-300"
-                    >
-                      <ExternalLink className="w-5 h-5 text-purple-600" />
-                      <span className="font-semibold text-gray-900">
-                        Book Tickets
-                      </span>
-                    </a>
-                  )}
-                </div>
+                      {event.booking_link && (
+                        <a
+                          href={event.booking_link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 p-3 bg-white rounded-md border-2 border-gray-400 hover:border-gray-900 transition-all"
+                        >
+                          <ExternalLink className="w-5 h-5 text-gray-900" />
+                          <div>
+                            <p className="font-bold text-gray-900 text-sm">
+                              Book Tickets
+                            </p>
+                            <p className="text-xs text-gray-600">
+                              External booking link
+                            </p>
+                          </div>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Sticky Bottom Bar */}
+      <StickyBottomBar
+        event={{
+          id: event.id,
+          title: event.title,
+          date: event.date,
+          time: event.time,
+          location: event.location,
+          category: event.category,
+          image_url: event.image_url,
+        }}
+        interestedCount={interestedCount || 0}
+        goingCount={goingCount || 0}
+        currentRSVP={currentRSVP}
+        capacity={event.capacity}
+      />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
